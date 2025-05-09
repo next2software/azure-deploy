@@ -4,16 +4,8 @@
   "parameters": {
     "servicePrincipalObjectId": {
       "type": "string",
-      "defaultValue": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
       "metadata": {
         "description": "The objectId of the service principal to assign the role to"
-      }
-    },
-    "roleDefinitionId": {
-      "type": "string",
-      "defaultValue": "b24988ac-6180-42a0-ab88-20f7382dd24c",
-      "metadata": {
-        "description": "The role definition ID for Contributor"
       }
     }
   },
@@ -21,9 +13,9 @@
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2020-10-01-preview",
-      "name": "[guid(subscription().id, parameters('servicePrincipalObjectId'), parameters('roleDefinitionId'))]",
+      "name": "[guid(subscription().id, parameters('servicePrincipalObjectId'), 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
       "properties": {
-        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
         "principalId": "[parameters('servicePrincipalObjectId')]",
         "principalType": "ServicePrincipal"
       }
