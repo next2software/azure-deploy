@@ -4,7 +4,7 @@
   "parameters": {
     "servicePrincipalObjectId": {
       "type": "string",
-      "defaultValue": "d43e0e31-3c37-4cd7-9c36-071774696f3f",
+      "defaultValue": "4da14022-49ca-45de-a174-d6e180dd8f3f",
       "metadata": {
         "description": "The objectId of the service principal to assign the role to"
       }
