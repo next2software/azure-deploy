@@ -1,32 +1,32 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "servicePrincipalObjectId": {
-      "type": "string",
-      "defaultValue": "fc90b168-67b2-4db9-9891-5bcac2f6de94",
-      "metadata": {
-        "description": "The objectId of the service principal to assign the role to"
-      }
-    },
-    "roleDefinitionId": {
-      "type": "string",
-      "defaultValue": "b24988ac-6180-42a0-ab88-20f7382dd24c",
-      "metadata": {
-        "description": "The role definition ID for Contributor"
-      }
-    }
-  },
   "resources": [
     {
+      "name": "[guid(subscription().id, parameters('servicePrincipalObjectId'), parameters('roleDefinitionId'))]",
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2020-10-01-preview",
-      "name": "[guid(subscription().id, parameters('servicePrincipalObjectId'), parameters('roleDefinitionId'))]",
       "properties": {
-        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]",
         "principalId": "[parameters('servicePrincipalObjectId')]",
-        "principalType": "ServicePrincipal"
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]"
       }
     }
-  ]
+  ],
+  "parameters": {
+    "roleDefinitionId": {
+      "type": "string",
+      "metadata": {
+        "description": "The role definition ID for Contributor"
+      },
+      "defaultValue": "b24988ac-6180-42a0-ab88-20f7382dd24c"
+    },
+    "servicePrincipalObjectId": {
+      "type": "string",
+      "metadata": {
+        "description": "The objectId of the service principal to assign the role to"
+      },
+      "defaultValue": "fc90b168-67b2-4db9-9891-5bcac2f6de94"
+    }
+  },
+  "contentVersion": "1.0.0.0"
 }
