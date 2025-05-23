@@ -1,17 +1,30 @@
 #!/bin/bash
 
+APP_NAME="Cloud Orchestrate Saas"
+
 # Check for Azure CLI
 if ! command -v az &> /dev/null; then
   echo "Azure CLI (az) is required but not installed. Please install it first."
   exit 1
 fi
 
-# Set the Enterprise Application object ID (replace with your actual value or pass it as an argument)
-ENTERPRISE_APP_OBJECT_ID="$1"
-if [ -z "$ENTERPRISE_APP_OBJECT_ID" ]; then
-  echo "Usage: $0 <enterprise_app_object_id>"
+# Login check
+if ! az account show &> /dev/null; then
+  echo "Please log in to Azure first using 'az login'."
   exit 1
 fi
+
+# Lookup Enterprise Application object ID by name
+echo "Looking up Enterprise Application with name: \"$APP_NAME\"..."
+ENTERPRISE_APP_OBJECT_ID=$(az ad sp list --display-name "$APP_NAME" --query "[0].objectId" -o tsv)
+
+if [ -z "$ENTERPRISE_APP_OBJECT_ID" ]; then
+  echo "Enterprise Application \"$APP_NAME\" not found in this tenant."
+  exit 1
+fi
+
+echo "Found Enterprise App Object ID: $ENTERPRISE_APP_OBJECT_ID"
+echo
 
 # Fetch all subscriptions
 echo "Fetching Azure subscriptions..."
@@ -55,4 +68,4 @@ for idx in "${selected_indexes[@]}"; do
   fi
 done
 
-echo "Done!"
+echo "All role assignments completed."
