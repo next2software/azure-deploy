@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="Cloud Orchestration SaaS"
+APP_ID="4da14022-49ca-45de-a174-d6e180dd8f3f"
 
 # Check for Azure CLI
 if ! command -v az &> /dev/null; then
@@ -14,12 +14,12 @@ if ! az account show &> /dev/null; then
   exit 1
 fi
 
-# Lookup Enterprise Application object ID by name
-echo "Looking up Enterprise Application with name: \"$APP_NAME\"..."
-ENTERPRISE_APP_OBJECT_ID=$(az ad sp list --display-name "$APP_NAME" --query "[0].objectId" -o tsv)
+# Lookup Enterprise Application object ID by appId
+echo "Looking up Enterprise Application with appId: \"$APP_ID\"..."
+ENTERPRISE_APP_OBJECT_ID=$(az ad sp list --filter "appId eq '$APP_ID'" --query "[0].id" -o tsv)
 
 if [ -z "$ENTERPRISE_APP_OBJECT_ID" ]; then
-  echo "Enterprise Application \"$APP_NAME\" not found in this tenant."
+  echo "Enterprise Application with appId \"$APP_ID\" not found in this tenant."
   exit 1
 fi
 
