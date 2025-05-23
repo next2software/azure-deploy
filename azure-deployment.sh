@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="Cloud Orchestrate Saas"
+APP_NAME="Cloud Orchestration SaaS"
 
 # Check for Azure CLI
 if ! command -v az &> /dev/null; then
